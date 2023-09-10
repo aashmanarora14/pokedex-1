@@ -4,10 +4,14 @@ import PokeCard from "../Components/PokeCard";
 
 const page = () => {
   const [allpokemons, setAllpokemons] = useState([]);
+  const [loadMore, setLoadMore] = useState(
+    "https://pokeapi.co/api/v2/pokemon?limit=20"
+  );
 
   const getPokemon = async () => {
-    const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=100");
+    const response = await fetch(loadMore);
     const data = await response.json();
+    setLoadMore(data.next);
 
     function fetchPokemonDetails(result) {
       result.forEach(async (pokemon) => {
@@ -54,6 +58,13 @@ const page = () => {
             />
           ))}
         </div>
+        <button
+          onClick={() => getPokemon()}
+          className="my-5 py-2 px-7 rounded-lg font-bold border border-[#c6c6c6] bg-gradient-to-br from-[#76daff] to-[#fcd000] hover:bg-gradient-to-tl hover:from-[#ff0000] hover:to-[#ffed00]
+          transition delay-150 duration-300 ease-in-out"
+        >
+          More Pokemons
+        </button>
       </div>
     </>
   );

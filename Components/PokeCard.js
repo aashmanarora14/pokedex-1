@@ -41,7 +41,7 @@ const PokeCard = (props) => {
         </small>
       </div>
       <button
-        className="px-1.5  py-2 rounded-lg my-2 font-satisfy bg-gradient-to-br from-[#2af598] to-[#009efd] hover:bg-gradient-to-br hover:from-[#ddd6f3] hover:to-[#faaca8] hover:via-[#faaca8]"
+        className="px-1.5  py-2 rounded-lg my-2 bg-gradient-to-br from-[#2af598] to-[#009efd] hover:bg-gradient-to-br hover:from-[#ddd6f3] hover:to-[#faaca8] hover:via-[#faaca8]"
         onClick={() => {
           setShow(!show);
         }}
