@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest # This specifies the OS for the job. Consider changing to 'ubuntu-latest' for your build process.
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
@@ -28,8 +28,18 @@ jobs:
       - name: Build React App
         run: npm run build
 
+      - name: Check Build Directory
+        run: |
+          if [ -d "build" ]; then
+            echo "Build directory exists."
+            ls -la build
+          else
+            echo "Build directory does not exist!"
+            exit 1
+          fi
+
       - name: Generate Deployment Package
-        run: zip -r BookAppFrontend.zip build/* # Change to zip the contents of the build directory
+        run: zip -r BookAppFrontend.zip build
 
       - name: Get timestamp
         uses: gerred/actions/current-time@master
