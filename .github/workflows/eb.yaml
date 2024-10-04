@@ -7,23 +7,29 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest  # Still use ubuntu-latest for the job, but we will run Docker container below.
+    runs-on: ubuntu-latest # This specifies the OS for the job. Consider changing to 'ubuntu-latest' for your build process.
+
+    strategy:
+      matrix:
+        node-version: [16.x]
 
     steps:
       - name: Checkout Latest Repo
         uses: actions/checkout@v2
 
-      - name: Build and Deploy in Amazon Linux
-        uses: docker://amazonlinux:2  # Use the Amazon Linux 2 image
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          args: |
-            /bin/bash -c "
-              yum install -y nodejs npm zip && \
-              npm install && \
-              npm run build && \
-              zip -r BookAppFrontend.zip build/* && \
-              echo 'Deployment package created.'
-            "
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build React App
+        run: npm run build
+
+      - name: Generate Deployment Package
+        run: zip -r BookAppFrontend.zip build/* # Change to zip the contents of the build directory
 
       - name: Get timestamp
         uses: gerred/actions/current-time@master
